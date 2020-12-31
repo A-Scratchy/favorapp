@@ -15,9 +15,7 @@ namespace Favor.Functions
     public class CandidateFunctions : BaseFunction<CandidateDbModel, CandidateRepository>
     {
 
-        public CandidateFunctions() : base() {}
-
-        public CandidateFunctions(CandidateRepository r, ILogger<CandidateDbModel> l) : base(r, l) {}
+        public CandidateFunctions(CandidateRepository r) : base(r) {}
 
         [FunctionName("AddCandidate")]
         public static async Task<IActionResult> AddCandidate(
