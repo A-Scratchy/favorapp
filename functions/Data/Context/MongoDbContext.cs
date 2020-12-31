@@ -13,8 +13,6 @@ namespace Favor.Functions.context
         public virtual MongoClient MongoClient { get; set; }
         public virtual IMongoDatabase Database { get; set; }
 
-        public MongoDbContext() { }
-
         public MongoDbContext(string connectionString, string databaseName)
         {
             try
