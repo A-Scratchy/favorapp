@@ -16,10 +16,6 @@ namespace Favor.Functions.Models
 
         public MongoDB.Bson.ObjectId CompanyId { get; set; }
 
-        //      public CandidateType Type { get; set; }
-
-        //      public List<CandidateApplicationModel> CandidateApplications { get; set; }
-
         public System.DateTime? RemoteRegistrationRequested { get; set; }
 
     }
@@ -31,4 +27,3 @@ namespace Favor.Functions.Models
         Disabled
     }
 }
-

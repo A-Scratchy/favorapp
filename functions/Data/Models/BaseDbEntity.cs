@@ -5,7 +5,7 @@ using MongoDB.Bson;
 namespace Favor.Functions.Models
 {
 
-    public class BaseDbEntity: IDbEntity
+    public class BaseDbEntity : IDbEntity
     {
         public ObjectId Id { get; set; }
 

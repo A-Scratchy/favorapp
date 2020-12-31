@@ -7,6 +7,8 @@ namespace Favor.Functions.Repositories
     {
         private static object _contextLock = new object();
 
+        protected static MongoDbContext Context { get; set; }
+
         public BaseRepository()
         {
             InitialiseContext();
@@ -17,8 +19,7 @@ namespace Favor.Functions.Repositories
             Context = context;
         }
 
-        protected static MongoDbContext Context { get; set; }
-
+        // Attempt to make a connection to the database
         private void InitialiseContext()
         {
 
@@ -35,8 +36,5 @@ namespace Favor.Functions.Repositories
                 }
             }
         }
-
     }
-
-
 }

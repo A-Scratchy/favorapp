@@ -1,9 +1,8 @@
-using System;
-using Favor.Functions.Models;
-using MongoDB.Driver;
-
 namespace Favor.Functions.context
 {
+    using System;
+    using Favor.Functions.Models;
+    using MongoDB.Driver;
 
     public class MongoDbContext
     {
@@ -13,6 +12,7 @@ namespace Favor.Functions.context
         public virtual MongoClient MongoClient { get; set; }
         public virtual IMongoDatabase Database { get; set; }
 
+        // Tries to establish a connection with the database
         public MongoDbContext(string connectionString, string databaseName)
         {
             try
@@ -32,6 +32,7 @@ namespace Favor.Functions.context
 
         }
 
+        // Candidate collection
         public virtual IMongoCollection<CandidateDbModel> Candidates => Database.GetCollection<CandidateDbModel>("Candidates");
     }
 }

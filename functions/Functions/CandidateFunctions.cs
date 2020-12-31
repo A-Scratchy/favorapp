@@ -14,8 +14,7 @@ namespace Favor.Functions
 
     public class CandidateFunctions : BaseFunction<CandidateDbModel, CandidateRepository>
     {
-
-        public CandidateFunctions(CandidateRepository r) : base(r) {}
+        public CandidateFunctions(CandidateRepository r) : base(r) { }
 
         [FunctionName("AddCandidate")]
         public static async Task<IActionResult> AddCandidate(
@@ -39,12 +38,4 @@ namespace Favor.Functions
             return new OkObjectResult(result);
         }
     }
-
-
-    // ========================================= READ =========================================
-
-    // ========================================= UPDATE =======================================
-
-    // ========================================= DELETE =======================================
-
 }

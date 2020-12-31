@@ -12,16 +12,15 @@ namespace Favor.Functions.Repositories
     public class CandidateRepository : BaseRepository, IRepository<CandidateDbModel>
     {
 
-        // ======================= SETUP ===============================================
-        
-        public CandidateRepository(): base() {}
+        public CandidateRepository() : base(  )
+        {
+
+        }
 
         public CandidateRepository(MongoDbContext context) : base(context)
         {
 
         }
-
-        // ======================== CURD Operations =====================================
 
         public virtual async Task<CandidateDbModel> AddAsync(CandidateDbModel candidate)
         {
