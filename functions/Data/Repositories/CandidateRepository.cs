@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Favor.Functions.context;
 using Favor.Functions.Interfaces;
@@ -23,16 +24,18 @@ namespace Favor.Functions.Repositories
 
         }
 
-        public virtual async Task<CandidateDbModel> AddAsync(CandidateDbModel candidate)
+        public virtual async Task<ObjectId> AddAsync(CandidateDbModel candidate)
         {
+            var id = ObjectId.GenerateNewId();
+            candidate.Id = id;
             await Context.Candidates.InsertOneAsync(candidate);
-            return candidate;
+            return candidate.Id;
         }
 
-        public virtual async Task<CandidateDbModel> DeleteAsync(CandidateDbModel candidate)
+        public virtual async Task<bool> DeleteAsync(CandidateDbModel candidate)
         {
-            await Context.Candidates.DeleteOneAsync(c => c.Id == candidate.Id);
-            return candidate;
+            var result = await Context.Candidates.DeleteOneAsync(c => c.Id == candidate.Id);
+            return result.DeletedCount == 1;
         }
 
         public virtual async Task<bool> EditAsync(CandidateDbModel candidate)
@@ -54,10 +57,10 @@ namespace Favor.Functions.Repositories
             return result.UpsertedId == originalCandidate.Id ? true : false;
         }
 
-        public virtual IEnumerable<CandidateDbModel> GetAll() =>
-            Context.Candidates.AsQueryable().ToList();
+        public virtual async Task<IEnumerable<CandidateDbModel>> GetAllAsync() =>
+            (await Context.Candidates.FindAsync(c => true)).ToList();
 
-        public virtual CandidateDbModel GetById(ObjectId id) =>
-            Context.Candidates.Find(c => c.Id == id).FirstOrDefault();
+        public virtual async Task<CandidateDbModel> GetByIdAsync(ObjectId id) =>
+            (await Context.Candidates.FindAsync(c => c.Id == id)).FirstOrDefault();
     }
 }

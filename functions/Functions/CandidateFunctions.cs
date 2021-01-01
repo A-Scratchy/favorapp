@@ -20,47 +20,61 @@ namespace Favor.Functions
 
         [FunctionName("AddCandidate")]
         public static async Task<IActionResult> AddCandidate(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Candidate/Add")] HttpRequest request,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "Candidate")] HttpRequest request,
             ILogger log)
         {
             string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
             try
             {
                 var candidateToAdd = JsonConvert.DeserializeObject<CandidateDbModel>(requestBody);
-                log.LogDebug("Adding candidate with name: " + candidateToAdd.FirstName);
-                await _repo.AddAsync(candidateToAdd);
-                return new OkObjectResult(true);
+                var id = await _repo.AddAsync(candidateToAdd);
+                return new OkObjectResult(id.ToString());
             }
             catch (Exception error)
             {
                 log.LogError(error.Message);
                 return new BadRequestObjectResult(false);
             }
-
         }
 
-        [FunctionName("DeleteCandidate")]
-        public static async Task<IActionResult> RemoveCandidate(
-                [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "Candidate/Delete/{id}")] HttpRequest request,
+        [FunctionName("GetCandidate")]
+        public static async Task<IActionResult> GetCandidateById(
+                [HttpTrigger(AuthorizationLevel.Function, "get", Route = "Candidate/{id}")] HttpRequest request,
                 string id, ILogger log)
         {
             try
             {
-                var candidateToRemove = _repo.GetById(new ObjectId(id));
-                await _repo.DeleteAsync(candidateToRemove);
-                return new OkObjectResult(true);
+                var candidate = await _repo.GetByIdAsync(new ObjectId(id));
+                return new OkObjectResult(candidate);
+            }
+            catch (Exception error)
+            {
+                log.LogError(error.Message);
+                return new BadRequestObjectResult(error);
+            }
+        }
+
+        [FunctionName("DeleteCandidate")]
+        public static async Task<IActionResult> DeleteCandidate(
+                [HttpTrigger(AuthorizationLevel.Function, "delete", Route = "Candidate/{id}")] HttpRequest request,
+                string id, ILogger log)
+        {
+            try
+            {
+                var candidateToRemove = await _repo.GetByIdAsync(new ObjectId(id));
+                var result = await _repo.DeleteAsync(candidateToRemove);
+                return new OkObjectResult(result);
             }
             catch (Exception error)
             {
                 log.LogError(error.Message);
                 return new BadRequestObjectResult(false);
             }
-
         }
 
         [FunctionName("UpdateCandidate")]
         public static async Task<IActionResult> UpdateCandidate(
-                [HttpTrigger(AuthorizationLevel.Function, "patch", Route = "Candidate/Update/{id}")] HttpRequest request,
+                [HttpTrigger(AuthorizationLevel.Function, "patch", Route = "Candidate/{id}")] HttpRequest request,
                 string id, ILogger log)
         {
             string requestBody = await new StreamReader(request.Body).ReadToEndAsync();

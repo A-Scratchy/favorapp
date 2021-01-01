@@ -7,13 +7,13 @@ namespace Favor.Functions.Interfaces
 
     public interface IRepository<T> where T : BaseDbEntity
     {
-        T GetById(ObjectId id);
+        Task<T> GetByIdAsync(ObjectId id);
 
-        Task<T> AddAsync(T document);
+        Task<ObjectId> AddAsync(T document);
 
         Task<bool> EditAsync(T document);
 
-        Task<T> DeleteAsync(T document);
+        Task<bool> DeleteAsync(T document);
     }
 
 }
