@@ -2,8 +2,8 @@
   "version": "2.0",
   "logging": {
       "logLevel": {
-        "default": "Information",
-        "Host.Results": "Error",
+        "default": "Trace",
+        "Host.Results": "Trace",
         "Function": "Trace",
         "Host.Aggregator": "Trace"
       }
