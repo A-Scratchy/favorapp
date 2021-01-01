@@ -1,0 +1,369 @@
+{
+	"info": {
+		"_postman_id": "3a3f7ee8-41a0-482b-aed7-29a026919f4c",
+		"name": "Favor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Candidates",
+			"item": [
+				{
+					"name": "Add Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Good call returns id\", function () {",
+									"    pm.expect(pm.response.text()).to.match(/[a-z \\d]{24}/g);",
+									"});",
+									"",
+									"// set id for use in later tests",
+									"pm.environment.set(\"id\", pm.response.text());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"\",\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"telephoneNumber\": \"{{$randomPhoneNumber}}\",\n    \"emailAddress\": \"{{$randomEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}Candidate",
+							"host": [
+								"{{url}}Candidate"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetCandidate",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}Candidate/{{id1}}",
+									"host": [
+										"{{url}}Candidate"
+									],
+									"path": [
+										"{{id1}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 01 Jan 2021 15:59:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": null,\n    \"firstName\": \"Burt\",\n    \"surname\": \"Wilson\",\n    \"telephoneNumber\": \"549832\",\n    \"emailAddress\": \"This@that.com\",\n    \"status\": 0,\n    \"companyId\": \"000000000000000000000000\",\n    \"remoteRegistrationRequested\": null,\n    \"id\": \"5fee5c1e2879e83fcfd440fe\",\n    \"lastModified\": \"2021-01-01T15:45:42.352Z\",\n    \"lastModifiedBy\": \"API\",\n    \"enabled\": true,\n    \"version\": 6,\n    \"concurrencyStamp\": \"00000000-0000-0000-0000-000000000000\",\n    \"deleted\": false,\n    \"partitionKey\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Good call returns object\", function () {",
+									"    pm.expect(pm.response.text()).to.include(pm.environment.get(\"id\"));",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}Candidate/{{id}}",
+							"host": [
+								"{{url}}Candidate"
+							],
+							"path": [
+								"{{id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetCandidate",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}Candidate/{{id1}}",
+									"host": [
+										"{{url}}Candidate"
+									],
+									"path": [
+										"{{id1}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 01 Jan 2021 15:59:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": null,\n    \"firstName\": \"Burt\",\n    \"surname\": \"Wilson\",\n    \"telephoneNumber\": \"549832\",\n    \"emailAddress\": \"This@that.com\",\n    \"status\": 0,\n    \"companyId\": \"000000000000000000000000\",\n    \"remoteRegistrationRequested\": null,\n    \"id\": \"5fee5c1e2879e83fcfd440fe\",\n    \"lastModified\": \"2021-01-01T15:45:42.352Z\",\n    \"lastModifiedBy\": \"API\",\n    \"enabled\": true,\n    \"version\": 6,\n    \"concurrencyStamp\": \"00000000-0000-0000-0000-000000000000\",\n    \"deleted\": false,\n    \"partitionKey\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"true\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Updated\",\n    \"surname\": \"{{$randomLastName}}\",\n    \"telephoneNumber\": \"{{$randomPhoneNumber}}\",\n    \"emailAddress\": \"{{$randomEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}Candidate/{{id}}",
+							"host": [
+								"{{url}}Candidate"
+							],
+							"path": [
+								"{{id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetCandidate",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}Candidate/{{id1}}",
+									"host": [
+										"{{url}}Candidate"
+									],
+									"path": [
+										"{{id1}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 01 Jan 2021 15:59:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": null,\n    \"firstName\": \"Burt\",\n    \"surname\": \"Wilson\",\n    \"telephoneNumber\": \"549832\",\n    \"emailAddress\": \"This@that.com\",\n    \"status\": 0,\n    \"companyId\": \"000000000000000000000000\",\n    \"remoteRegistrationRequested\": null,\n    \"id\": \"5fee5c1e2879e83fcfd440fe\",\n    \"lastModified\": \"2021-01-01T15:45:42.352Z\",\n    \"lastModifiedBy\": \"API\",\n    \"enabled\": true,\n    \"version\": 6,\n    \"concurrencyStamp\": \"00000000-0000-0000-0000-000000000000\",\n    \"deleted\": false,\n    \"partitionKey\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Good call returns true\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"true\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}Candidate/{{id}}",
+							"host": [
+								"{{url}}Candidate"
+							],
+							"path": [
+								"{{id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GetCandidate",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}Candidate/{{id1}}",
+									"host": [
+										"{{url}}Candidate"
+									],
+									"path": [
+										"{{id1}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Fri, 01 Jan 2021 15:59:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Content-Length",
+									"value": "413"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": null,\n    \"firstName\": \"Burt\",\n    \"surname\": \"Wilson\",\n    \"telephoneNumber\": \"549832\",\n    \"emailAddress\": \"This@that.com\",\n    \"status\": 0,\n    \"companyId\": \"000000000000000000000000\",\n    \"remoteRegistrationRequested\": null,\n    \"id\": \"5fee5c1e2879e83fcfd440fe\",\n    \"lastModified\": \"2021-01-01T15:45:42.352Z\",\n    \"lastModifiedBy\": \"API\",\n    \"enabled\": true,\n    \"version\": 6,\n    \"concurrencyStamp\": \"00000000-0000-0000-0000-000000000000\",\n    \"deleted\": false,\n    \"partitionKey\": null\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "noneyet",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:7071/api/"
+		},
+		{
+			"key": "id1",
+			"value": "5fee5c1e2879e83fcfd440fe"
+		},
+		{
+			"key": "id2",
+			"value": "5fee5ae12879e83fcfd440f9"
+		},
+		{
+			"key": "telephoneNumber",
+			"value": "\"07845685421\""
+		},
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
