@@ -11,7 +11,7 @@ namespace Favor.Functions.Interfaces
 
         Task<T> AddAsync(T document);
 
-        Task<T> EditAsync(T document);
+        Task<bool> EditAsync(T document);
 
         Task<T> DeleteAsync(T document);
     }
