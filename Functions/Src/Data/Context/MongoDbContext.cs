@@ -33,6 +33,6 @@ namespace Favor.Functions.context
         }
 
         // Candidate collection
-        public virtual IMongoCollection<CandidateDbModel> Candidates => Database.GetCollection<CandidateDbModel>("Candidates");
+        public virtual IMongoCollection<CandidateDto> Candidates => Database.GetCollection<CandidateDto>("Candidates");
     }
 }

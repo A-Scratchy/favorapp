@@ -2,7 +2,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Favor.Functions.Models
 {
-    public class CandidateDbModel : BaseDbEntity
+    public class CandidateDto : BaseDbEntity
     {
         [BsonElement("title")]
         public string Title { get; set; }

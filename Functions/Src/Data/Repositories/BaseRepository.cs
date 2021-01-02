@@ -22,7 +22,6 @@ namespace Favor.Functions.Repositories
         // Attempt to make a connection to the database
         private void InitialiseContext()
         {
-
             if (Context == null)
             {
                 lock (_contextLock)

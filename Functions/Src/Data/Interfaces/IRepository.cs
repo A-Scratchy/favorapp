@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Favor.Functions.Models;
 
@@ -7,11 +8,13 @@ namespace Favor.Functions.Interfaces
 
     public interface IRepository<T> where T : BaseDbEntity
     {
-        Task<T> GetByIdAsync(Guid id);
+        Task<ICollection<T>> GetAsync();
 
-        Task<bool> AddAsync(T document);
+        Task<T> GetAsync(Guid id);
 
-        Task<bool> EditAsync(T document);
+        Task<T> PostAsync(T document);
+
+        Task<T> PutAsync(T document);
 
         Task<bool> DeleteAsync(T document);
     }
