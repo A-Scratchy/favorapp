@@ -1,0 +1,8 @@
+#Ignore build results
+bin/
+obj/
+
+#Ignore appsettings
+
+appsettings.*
+
