@@ -52,7 +52,7 @@ namespace Favor.Functions.Repositories
         {
             try
             {
-                return (await Context.Candidates.FindAsync(c => c.Enabled)).FirstOrDefault();
+                return (await Context.Candidates.FindAsync(c => c.Id == id)).FirstOrDefault();
             }
             catch (Exception error)
             {
