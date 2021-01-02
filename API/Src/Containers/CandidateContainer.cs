@@ -1,4 +1,3 @@
-
 namespace Favor.API.Containers
 {
     using System;
@@ -6,7 +5,7 @@ namespace Favor.API.Containers
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Favor.API.Interfaces;
-    using System.Security.Cryptography.X509Certificates;
+    using System.Net;
 
     public class CandidateContainer : ICandidateContainer
     {
@@ -42,11 +41,15 @@ namespace Favor.API.Containers
                 _logger.LogDebug("responded with status: " + response.StatusCode.ToString());
                 return response;
             }
-            catch (HttpRequestException error)
+            catch (NullReferenceException error)
             {
-                _logger.LogError("error executing call: " + error.Message);
-                return null;
+                _logger.LogError("An error occured after calling GetByIdAsync \n" + error);
+                return new HttpResponseMessage()
+                {
+                    StatusCode = HttpStatusCode.BadGateway
+                };
             }
+
 
         }
 

@@ -35,6 +35,11 @@ namespace API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
 
+            services.AddAuthorization(options =>
+               {
+                   options.AddPolicy("ValidId", policy => policy.RequireClaim("http://schemas.microsoft.com/identity/claims/objectidentifier"));
+               });
+
             services.AddSingleton<ICandidateContainer, CandidateContainer>();
 
 

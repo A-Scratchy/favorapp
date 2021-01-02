@@ -1,7 +1,5 @@
 namespace Favor.API.Controllers
 {
-    using System;
-    using System.Net;
     using System.Threading.Tasks;
     using Favor.API.Auth;
     using Favor.API.Interfaces;
@@ -24,30 +22,34 @@ namespace Favor.API.Controllers
             _container = candidateContainer;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(string id)
         {
             HttpContext.VerifyUserHasAnyAcceptedScope(Scopes.CandidateRead);
 
-            var result = await _container.GetByIdAsync(id);
-            try
-            {
-                switch (result.StatusCode)
-                {
-                    case HttpStatusCode.OK:
-                        return new OkObjectResult(await result.Content.ReadAsStringAsync());
-                    case HttpStatusCode.Unauthorized:
-                        return new UnauthorizedResult();
-                    case HttpStatusCode.NotFound:
-                        return new NotFoundResult();
-                }
-            }
-            catch (NullReferenceException error)
-            {
-                _logger.LogError("An error occured after calling GetByIdAsync \n" + error);
-                return new BadRequestResult();
-            }
-            return new BadRequestResult();
+            var response = await _container.GetByIdAsync(id);
+
+            return response.IsSuccessStatusCode
+                ? new OkObjectResult(await response.Content.ReadAsStringAsync())
+                : new BadRequestResult();
         }
+
+        [HttpGet]
+        [Authorize(Policy = "ValidId")]
+        public async Task<IActionResult> GetFromToken()
+        {
+            HttpContext.VerifyUserHasAnyAcceptedScope(Scopes.CandidateRead);
+
+            var id = User.FindFirst("http://schemas.microsoft.com/identity/claims/objectidentifier")?.Value.ToString();
+
+            _logger.LogDebug(id);
+
+            var response = await _container.GetByIdAsync(id);
+
+            return response.IsSuccessStatusCode
+                ? new OkObjectResult(await response.Content.ReadAsStringAsync())
+                : new BadRequestResult();
+        }
+
     }
 }
