@@ -1,13 +1,14 @@
 using System;
 using Functions.Interfaces;
-using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Favor.Functions.Models
 {
 
     public class BaseDbEntity : IDbEntity
     {
-        public ObjectId Id { get; set; }
+        [BsonId]
+        public Guid Id { get; set; }
 
         public DateTime LastModified { get; set; }
 

@@ -24,12 +24,17 @@ namespace Favor.Functions.Repositories
 
         }
 
-        public virtual async Task<ObjectId> AddAsync(CandidateDbModel candidate)
+        public virtual async Task<bool> AddAsync(CandidateDbModel candidate)
         {
-            var id = ObjectId.GenerateNewId();
-            candidate.Id = id;
-            await Context.Candidates.InsertOneAsync(candidate);
-            return candidate.Id;
+            try
+            {
+                await Context.Candidates.InsertOneAsync(candidate);
+                return true;
+            }
+            catch (Exception error)
+            {
+                return false;
+            }
         }
 
         public virtual async Task<bool> DeleteAsync(CandidateDbModel candidate)
@@ -54,13 +59,14 @@ namespace Favor.Functions.Repositories
 
             var result = await Context.Candidates.ReplaceOneAsync(c => c.Id == candidate.Id, candidate);
 
-            return result.UpsertedId == originalCandidate.Id ? true : false;
+            return Guid.Equals(result.UpsertedId, originalCandidate.Id) ? true : false;
+            
         }
 
         public virtual async Task<IEnumerable<CandidateDbModel>> GetAllAsync() =>
             (await Context.Candidates.FindAsync(c => true)).ToList();
 
-        public virtual async Task<CandidateDbModel> GetByIdAsync(ObjectId id) =>
+        public virtual async Task<CandidateDbModel> GetByIdAsync(Guid id) =>
             (await Context.Candidates.FindAsync(c => c.Id == id)).FirstOrDefault();
     }
 }

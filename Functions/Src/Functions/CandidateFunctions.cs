@@ -27,8 +27,7 @@ namespace Favor.Functions
             try
             {
                 var candidateToAdd = JsonConvert.DeserializeObject<CandidateDbModel>(requestBody);
-                var id = await _repo.AddAsync(candidateToAdd);
-                return new OkObjectResult(id.ToString());
+                return new OkObjectResult(await _repo.AddAsync(candidateToAdd));
             }
             catch (Exception error)
             {
@@ -44,7 +43,7 @@ namespace Favor.Functions
         {
             try
             {
-                var candidate = await _repo.GetByIdAsync(new ObjectId(id));
+                var candidate = await _repo.GetByIdAsync(new Guid(id));
                 return new OkObjectResult(candidate);
             }
             catch (Exception error)
@@ -61,7 +60,7 @@ namespace Favor.Functions
         {
             try
             {
-                var candidateToRemove = await _repo.GetByIdAsync(new ObjectId(id));
+                var candidateToRemove = await _repo.GetByIdAsync(new Guid(id));
                 var result = await _repo.DeleteAsync(candidateToRemove);
                 return new OkObjectResult(result);
             }
@@ -81,7 +80,7 @@ namespace Favor.Functions
             try
             {
                 var newCandidateInfo = BsonSerializer.Deserialize<CandidateDbModel>(requestBody);
-                newCandidateInfo.Id = new ObjectId(id);
+                newCandidateInfo.Id = new Guid(id);
                 var result = await _repo.EditAsync(newCandidateInfo);
                 return new OkObjectResult(true);
             }

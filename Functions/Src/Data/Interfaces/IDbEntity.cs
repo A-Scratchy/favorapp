@@ -1,11 +1,11 @@
-using MongoDB.Bson;
+using System;
 
 namespace Functions.Interfaces
 {
     public interface IDbEntity
     {
 
-        ObjectId Id { get; set; }
+        Guid Id { get; set; }
 
         string PartitionKey { get; set; }
 
