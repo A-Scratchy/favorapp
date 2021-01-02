@@ -1,5 +1,6 @@
 namespace Favor.API.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using Favor.API.Auth;
     using Favor.API.Interfaces;
@@ -27,16 +28,24 @@ namespace Favor.API.Controllers
         {
             HttpContext.VerifyUserHasAnyAcceptedScope(Scopes.CandidateRead);
 
-            var response = await _container.GetByIdAsync(id);
+            try
+            {
+                var guid = new Guid(id);
+                var response = await _container.GetByIdAsync(guid);
 
-            return response.IsSuccessStatusCode
-                ? new OkObjectResult(await response.Content.ReadAsStringAsync())
-                : new BadRequestResult();
+                return response.IsSuccessStatusCode
+                    ? new OkObjectResult(await response.Content.ReadAsStringAsync())
+                    : new BadRequestResult();
+            }
+            catch (FormatException error)
+            {
+                return new BadRequestObjectResult(error.Message);
+            }
         }
 
         [HttpGet]
         [Authorize(Policy = "ValidId")]
-        public async Task<IActionResult> GetFromToken()
+        public async Task<IActionResult> GetFromTokenAsync()
         {
             HttpContext.VerifyUserHasAnyAcceptedScope(Scopes.CandidateRead);
 
@@ -44,12 +53,20 @@ namespace Favor.API.Controllers
 
             _logger.LogDebug(id);
 
-            var response = await _container.GetByIdAsync(id);
+            try
+            {
+                var guid = new Guid(id);
+                var response = await _container.GetByIdAsync(guid);
 
-            return response.IsSuccessStatusCode
-                ? new OkObjectResult(await response.Content.ReadAsStringAsync())
-                : new BadRequestResult();
+                return response.IsSuccessStatusCode
+                    ? new OkObjectResult(await response.Content.ReadAsStringAsync())
+                    : new BadRequestResult();
+            }
+            catch (FormatException error)
+            {
+                return new BadRequestObjectResult(error.Message);
+            }
+
         }
-
     }
 }

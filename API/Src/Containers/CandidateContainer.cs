@@ -23,22 +23,19 @@ namespace Favor.API.Containers
             HttpClient httpClient
         )
         {
-            _endpoint = "http://localhost:7071/api/Candidate/";
+            _endpoint = "http://localhost:7071/api/Candidates/";
             _functionKey = "";
             _logger = logger;
             _httpClient = httpClient;
         }
 
-        public async Task<HttpResponseMessage> GetByIdAsync(string id)
+        public async Task<HttpResponseMessage> GetByIdAsync(Guid id)
         {
             var uri = new Uri(_endpoint + id + "?code=" + _functionKey);
-            _logger.LogDebug(uri.ToString());
-            _logger.LogDebug(_httpClient.ToString());
 
             try
             {
                 var response = await _httpClient.GetAsync(uri);
-                _logger.LogDebug("responded with status: " + response.StatusCode.ToString());
                 return response;
             }
             catch (NullReferenceException error)
@@ -50,8 +47,6 @@ namespace Favor.API.Containers
                 };
             }
 
-
         }
-
     }
 }

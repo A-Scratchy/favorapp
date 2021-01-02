@@ -1,10 +1,10 @@
-using System.Net.Http;
-using System.Threading.Tasks;
-
 namespace Favor.API.Interfaces
 {
+    using System;
+    using System.Net.Http;
+    using System.Threading.Tasks;
     public interface IContainer
     {
-        Task<HttpResponseMessage> GetByIdAsync(string id);
+        Task<HttpResponseMessage> GetByIdAsync(Guid id);
     }
 }
