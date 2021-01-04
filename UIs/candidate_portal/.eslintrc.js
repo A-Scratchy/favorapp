@@ -1,24 +1,24 @@
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   extends: [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended",
+    'airbnb-typescript/base',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
   ],
+  plugins: ['@typescript-eslint', 'react'],
   parserOptions: {
+    project: ['./tsconfig.json'],
     ecmaVersion: 2018,
-    sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
-    },
+    sourceType: 'module',
+    ecmaFeatures: {},
   },
   rules: {
+    'import/extensions': 0,
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
   },
   settings: {
     react: {
-      version: "detect",
+      version: 'detect',
     },
   },
 };
