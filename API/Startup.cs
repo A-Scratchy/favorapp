@@ -10,6 +10,8 @@ namespace API
     using Microsoft.OpenApi.Models;
     using Favor.API.Interfaces;
     using Favor.API.Containers;
+    using Favor.OptionBindings;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -29,6 +31,7 @@ namespace API
                     },
                 opt => { Configuration.Bind("AzureAdB2C", opt); });
 
+            services.Configure<EndpointOptions>(Configuration.GetSection(EndpointOptions.SectionName));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -41,8 +44,6 @@ namespace API
                });
 
             services.AddSingleton<ICandidateContainer, CandidateContainer>();
-
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

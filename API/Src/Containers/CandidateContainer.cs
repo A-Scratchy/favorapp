@@ -6,6 +6,8 @@ namespace Favor.API.Containers
     using Microsoft.Extensions.Logging;
     using Favor.API.Interfaces;
     using System.Net;
+    using Microsoft.Extensions.Options;
+    using Favor.OptionBindings;
 
     public class CandidateContainer : ICandidateContainer
     {
@@ -19,18 +21,20 @@ namespace Favor.API.Containers
         private readonly string _functionKey;
 
         public CandidateContainer(
+            IOptions<EndpointOptions> options,
             ILogger<string> logger,
             HttpClient httpClient
         )
         {
-            _endpoint = "http://localhost:7071/api/Candidates/";
-            _functionKey = "";
+            _endpoint = options.Value.CandidateEndpoint;
+            _functionKey = options.Value.FunctionsKey;
             _logger = logger;
             _httpClient = httpClient;
         }
 
         public async Task<HttpResponseMessage> GetByIdAsync(Guid id)
         {
+            Console.WriteLine("end:**********" + _endpoint);
             var uri = new Uri(_endpoint + id + "?code=" + _functionKey);
 
             try
