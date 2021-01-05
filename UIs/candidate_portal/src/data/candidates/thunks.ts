@@ -13,3 +13,5 @@ export const loadCandidateDataThunk = () => (
     }),
   );
 };
+
+const candidateEndpoint = 'http://localhost:5001/Candidate';
